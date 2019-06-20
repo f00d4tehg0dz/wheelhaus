@@ -1,0 +1,278 @@
+// *** Created by Adrian Chrysanthou *** //
+// *** additional support by cmandersen88 ***//
+// --- Init Variables ---//
+games: [];
+categories: [];
+genres: [];
+category: 0;
+genre: 0;
+free: 0;
+reset();
+// --- Reset Wheel --- //
+function reset() {
+    $('.gameID').hide();
+    $('.appID').hide();
+    $('.launchGame').hide();
+    $('.gameName').hide();
+    $('.gameInfos').hide();
+    $('.gameNamePlayTime').hide();
+    $('a.gameNamePlayTime').hide();
+    $('.gameNameSelectedPlayTime').hide();
+    $('.gameNameSelected').hide();
+    $('.gameNamePrice').hide();
+	$('.gameNameRating').hide();
+     $('.appIDDescription').hide();
+    // --- Load DropDowns Before Spin --- //
+    Category();
+    Genre();
+}
+$('#gameWheel').css('background-image', 'none');
+$('.steamHeight').css("height", $(document).height() - 200);
+// --- Sound --- //
+function playSound(el, soundfile) {
+        if (el.mp3) {
+            if (el.mp3.paused) el.mp3.play();
+            else el.mp3.pause();
+        } else {
+            el.mp3 = new Audio(soundfile);
+            el.mp3.play();
+        }
+    }
+    // --- Randomize Games --- //
+var _target, _deg = 0;
+
+function ordSequential() {
+        return _deg = _deg + (45 * 3) + 1080;
+    }
+    // --- Get Categories --- //
+
+function Category() {
+        $.ajax({
+            url: 'http://steam.cmandersen.com/categories',
+            method: 'get',
+            success: function(catData) {
+                $.each(catData, function(index, obj) {
+                    $('#category').append($('<option>', {
+                        text: obj.name,
+                        value: obj.id
+                    }));
+                });
+            }
+        });
+    }
+    // --- Get Genres --- //
+
+function Genre() {
+    $.ajax({
+        url: 'http://steam.cmandersen.com/genres',
+        method: 'get',
+        success: function(genreData) {
+            $.each(genreData, function(index, obj) {
+                $('#genre').append($('<option>', {
+                    text: obj.name,
+                    value: obj.id
+                }));
+            });
+        }
+    });
+}
+if ($('#free').is(':checked')) {
+    var freeID = "free";
+} else {
+	 var freeID = "";
+}
+jQuery(document).ready(function($) {
+    $(".skills-wheelbtn").on("click", function(e) {
+        grabGames();
+        function grabGames() {
+            reset();
+            $(".skills-wheelbtn").text("Loading");
+            // --- Genre and Category Selection --- //
+            var genreID = $('#genre').val();
+            var catID = $('#category :selected').val();
+            var catText = $('#category :selected').text();
+            // --- Figure out if Free is Checked --- //
+           var dataSet = { 
+                    limit: 8,
+                    random: 8,
+                category: {
+                        id: catID
+                    },
+                    genre: {
+                        id: genreID
+                    },
+                    free: {
+                        id: freeID
+                    }
+                };
+                 // --- Category and Genre not selected and Free enabled ---//
+                if ($('#genre').val() == "0" && $('#category :selected').val() =="0" && $('#free').is(':checked') == false ) {
+                  // console.log('Free disabled')
+                    var dataSet = { 
+                    limit: 8,
+                    random: 8
+                }
+                };
+                 // --- Category and Genre not selected and Free disabled ---//
+                if ($('#category :selected').val() =="0" && $('#genre').val() == "0" && $('#free').is(':checked') == true) {
+                    // console.log('Category, Genre not selected and  Free enabled ')
+                    var dataSet = { 
+                    limit: 8,
+                    random: 8,
+                     free: {
+                        id: freeID
+                    }
+                }
+                };
+                 // --- Genre selected, category not enabled ---//
+                 if ($('#category :selected').val() =="0"){
+                    // console.log('Genre selected, category not enabled')
+                    var dataSet = { 
+                    limit: 8,
+                    random: 8,
+                     genre: {
+                        id: genreID
+                    }
+                }
+                };
+                 // --- Genre not enabled ---//
+               if ($('#genre').val() == "0")  {
+                    // console.log('Genre not enabled')
+                    var dataSet = { 
+                    limit: 8,
+                    random: 8,
+                     cat: {
+                        id: catID
+                    }  
+                }
+                };
+                  // --- Genre not enabled, free enabled ---//
+                 if ($('#genre').val() == "0" && $('#free').is(':checked') == true)  {
+                    // console.log('Genre not enabled, free enabled')
+                    var dataSet = { 
+                    limit: 8,
+                    random: 8,
+                     cat: {
+                        id: catID
+                    },
+                    free: {
+                        id: freeID
+                    } 
+                }
+                };
+            
+            // --- future Array --- //
+            //  genre = [];
+            // genre[0] = 'hi';
+            // genre[1] = 'hello';
+            //  data: {genre:info},
+            $.ajax({
+                url: 'http://steam.cmandersen.com/apps',
+                method: 'get',
+                data: dataSet, 
+                cache: false,
+                success: function(data) {
+                    $('.wheel').empty();
+                    $.each(data, function(i, item) {
+                        $('.wheel').append('<li><img id=clipPolygon src="' + item.image + '"><a class=gameName>' + item.name + '</a><a class=appID>' + item.id + '</a><div class=appDescription>' + item.description + '</div><div class=gameNamePrice>' + item.price + '</div><div class=gameNameRating>' + item.score + '</div></li)>');
+                 
+                    });
+                    spinWheel();
+                }
+            });
+        }
+
+        function spinWheel() {
+        
+            if ($('#audioBtn:contains("Turn Audio On")').length) {} else {
+                playSound(this, './music/thewheelhausaudio.mp3');
+            }
+            ordSequential();
+            _target = (_deg - (360 * parseInt(_deg / 360))) / 45;
+            // start animation
+            // reset opacity of all segments to 1
+            $(".gameName").parent("li").velocity({
+                opacity: 1
+            }, {
+                duration: 0,
+                complete: function() {
+                        $(".skills-wheelbtn").text("Spinning");
+                        $(".wheel").velocity({
+                            rotateZ: "-" + _deg + "deg"
+                        }, {
+                            duration: 4000,
+                            complete: function(elements) {
+                                    // after spinning animation is completed, set opacity of target segment's parent
+                                    $(".gameName").parent("li").eq(_target).velocity({
+                                        opacity: 0.4
+                                    }, {
+                                        duration: 100,
+                                        // after opacity is completed, fire targeted segment in fancybox
+                                        complete: function() {
+                                                $(".gameName").eq(_target).trigger("click");
+                                                // $(".appID").eq(_target).show();
+                                                var appIDtext = $(".appID").eq(_target).text();
+                                                var appIDDescription = $(".appDescription").eq(_target).text();
+                                             
+                                                // take appID and add to url to retrieve game info
+                                                var storeUrl = "http://steam.cmandersen.com/apps/";
+                                                //credit to this http://jsfiddle.net/bYMVw/
+                                                function addQSParm(name, value) {
+                                                    var re = new RegExp("([?&]" + name + "=)[^&]+", "");
+
+                                                    function add(sep) {
+                                                        storeUrl += sep + name + "=" + value;
+                                                    }
+
+                                                    function change() {
+                                                        storeUrl = storeUrl.replace(re, "$1" + value);
+                                                    }
+                                                    if (storeUrl.indexOf("?") === -1) {
+                                                        add("");
+                                                    } else {
+                                                        if (re.test(storeUrl)) {
+                                                            change();
+                                                        } else {
+                                                            add("");
+                                                        }
+                                                    }
+                                                }
+                                                var removeWhiteSpace = $(".appID").eq(_target).text().replace(/ /g, '');
+                                                addQSParm("appids", removeWhiteSpace);
+                                                var appIDString = storeUrl;
+
+                                                $(".appIDDescription").text(appIDDescription);
+                                               
+                                            	$(".appIDDescription").text($(this).text().substr(0, 375)+'...');
+                                                var gameNameRating = $(".gameNameRating").eq(_target).text();
+                                             	var gameNamePrice = $(".gameNamePrice").eq(_target).text();
+                                             
+                                             	$(".gameNameRating").text('Meta Critic Rating:  ' +gameNameRating);
+                                            
+                                                $(".gameNamePrice").text('Game Price: ' +gameNamePrice);
+
+                                                var gameNametext = $(".gameName").eq(_target).text();
+                                                var gameNameplaytime = $(".gameNamePlayTime").eq(_target).text();
+                                                  
+                                                var appIDscaled = appIDtext.replace(/\s/g, '');
+                                                
+                                                $('.appIDDescription').show();
+                                                $('.gameNamePrice').show();
+                                                $('.gameNameRating').show();
+                                                $('.gameNameSelected').text(gameNametext);
+                                                $('.gameNameSelected').show();
+                                                $('.launchGame').show();
+                                                $(".skills-wheelbtn").text("Spin");
+                                                $('.launchGame').on("click", function(e) {
+                                                    window.location.href = "steam://run/" + appIDscaled;
+                                                });
+                                            } // third animation completed
+                                    }); // nested velocity 2
+                                } // second animation completed
+                        }); // nested velocity 1
+                    } // first animation completed
+            }); // velocity
+            return false;
+        }
+    }); // click
+}); // ready
