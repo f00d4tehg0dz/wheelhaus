@@ -98,7 +98,7 @@ jQuery(document).ready(function($) {
             var catText = $('#category :selected').text();
             // --- Figure out if Free is Checked --- //
             var freeID = $('#free').is(':checked') ? 1 : 0;
-             // TODO: Need new VR enum val from CMA
+            // --- Figure our if Exclude VR is Checked --- //
             var vrID = $('#vr').is(':checked') ? 1 : 0;
             var dataSet = {
                 limit: 8,
@@ -106,8 +106,7 @@ jQuery(document).ready(function($) {
                 category: catID,
                 genre: genreID,
                 free: freeID,
-                // TODO: Need new VR query param from CMA
-                vr: vrID
+                non_vr: vrID
             };
  
             // --- future Array --- //
