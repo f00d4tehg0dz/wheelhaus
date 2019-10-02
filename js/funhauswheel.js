@@ -49,7 +49,7 @@ function ordSequential() {
 // --- Get Categories --- //
 function Category() {
     $.ajax({
-        url: 'http://steam.cmandersen.com/categories',
+        url: 'https://steam.cma.dk/categories',
         method: 'get',
         success: function(catData) {
             $.each(catData, function(index, obj) {
@@ -65,7 +65,7 @@ function Category() {
 // --- Get Genres --- //
 function Genre() {
     $.ajax({
-        url: 'http://steam.cmandersen.com/genres',
+        url: 'https://steam.cma.dk/genres',
         method: 'get',
         success: function(genreData) {
             $.each(genreData, function(index, obj) {
@@ -116,7 +116,7 @@ jQuery(document).ready(function($) {
             // genre[1] = 'hello';
             //  data: {genre:info},
             $.ajax({
-                url: 'http://steam.cmandersen.com/apps',
+                url: 'https://steam.cma.dk/apps',
                 method: 'get',
                 data: dataSet,
                 cache: false,
@@ -165,7 +165,7 @@ jQuery(document).ready(function($) {
                                                 var appIDDescription = $(".appDescription").eq(_target).text();
                                                      
                                                 // take appID and add to url to retrieve game info
-                                                var storeUrl = "http://steam.cmandersen.com/apps/";
+                                                var storeUrl = "https://steam.cma.dk/apps/";
                                                 //credit to this http://jsfiddle.net/bYMVw/
                                                 function addQSParm(name, value) {
                                                     var re = new RegExp("([?&]" + name + "=)[^&]+", "");
