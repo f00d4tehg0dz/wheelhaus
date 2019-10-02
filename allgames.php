@@ -76,7 +76,7 @@ include "header.php";
             <div class="col-md-12">
                 <div id="steamFaq">
                         <h1>Does this access every Steam Game?</h1>
-                        <p>Yes, this list is updated on the fly (thanks to <a href="http://cmandersen.com/" target="_blank">cmandersen</a>), and includes all Steam Games + Free ones as well.</p>
+                        <p>Yes, this list is updated on the fly (thanks to <a href="https://cma.dk" target="_blank">CMAndersen</a>), and includes all Steam Games + Free ones as well.</p>
                         <h1>Why do some Steam Games have no image?</h1>
                         <p>Certain games in the Steam library are missing the image ID. So you will have an empty spot</p>
                         <h1>Can I buy you a beer?</h1>
@@ -98,7 +98,7 @@ include "header.php";
     <footer>
         <div class="container-fluid">
             <div class="col-md-12">
-                <p>created by <a href="http://www.f00dplays.com" target="_blank">f00d</a> and steamAPI by <a href="http://cmandersen.com/" target="_blank">cmanderson</a>  powered by <a href="http://www.steampowered.com" target=
+                <p>created by <a href="http://www.f00dplays.com" target="_blank">f00d</a> and steamAPI by <a href="https://cma.dk" target="_blank">CMAndersen</a>  powered by <a href="http://www.steampowered.com" target=
                 "_blank">Steam, Praise Gaben</a> &copy; 2018</p>
             </div>
         </div>
