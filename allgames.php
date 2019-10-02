@@ -38,7 +38,7 @@ include "header.php";
                         </select>
                         <div class="form-check">
                             <label class="form-check-label free" for="free">
-                            <input class="form-check-input" id="free" name="free" value="" type="checkbox">Include Free Games</label> 
+                            <input class="form-check-input" id="free" name="free" value="" type="checkbox">Only Show Free Games</label> 
                         </div>
                 </div>
                 <div class="col-md-6">
