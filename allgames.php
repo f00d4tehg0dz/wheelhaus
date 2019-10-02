@@ -40,6 +40,10 @@ include "header.php";
                             <label class="form-check-label free" for="free">
                             <input class="form-check-input" id="free" name="free" value="" type="checkbox">Include Free Games</label> 
                         </div>
+                        <div class="form-check">
+                            <label class="form-check-label free" for="vr">
+                            <input class="form-check-input" id="vr" name="vr" value="" type="checkbox">Exclude VR Games</label> 
+                        </div>
                 </div>
                 <div class="col-md-6">
                     <div id="gameWheel">

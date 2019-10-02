@@ -97,17 +97,17 @@ jQuery(document).ready(function($) {
             var catID = $('#category :selected').val();
             var catText = $('#category :selected').text();
             // --- Figure out if Free is Checked --- //
-            if ($('#free').is(':checked')) {
-                var freeID = 1;
-            } else {
-                 var freeID = 0;
-            }
+            var freeID = $('#free').is(':checked') ? 1 : 0;
+             // TODO: Need new VR enum val from CMA
+            var vrID = $('#vr').is(':checked') ? 1 : 0;
             var dataSet = {
                 limit: 8,
                 random: 1,
                 category: catID,
                 genre: genreID,
-                free: freeID
+                free: freeID,
+                // TODO: Need new VR query param from CMA
+                vr: vrID
             };
  
             // --- future Array --- //
