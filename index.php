@@ -13,9 +13,6 @@
                     <li>
                         <a href="./allgames.php">All Steam Games</a>
                     </li>
-                    <!-- <li>
-                        <a href="./freegames.php">All Free Games</a>
-                    </li> -->
                 </ul>
             </nav>
         </div>
