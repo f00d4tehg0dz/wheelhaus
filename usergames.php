@@ -123,7 +123,7 @@ include "steam.php";
         <div class="container-fluid">
             <div class="col-md-12">
                 <p>created by <a href="http://www.f00dplays.com" target="_blank">f00d</a> powered by <a href="http://www.steampowered.com" target=
-                "_blank">Steam, Praise Gaben</a> &copy; 2018</p>
+                "_blank">Steam, Praise Gaben</a> &copy; <?= date("Y"); ?></p>
             </div>
         </div>
     </footer>
