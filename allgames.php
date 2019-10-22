@@ -102,8 +102,12 @@ include "header.php";
     <footer>
         <div class="container-fluid">
             <div class="col-md-12">
-                <p>created by <a href="http://www.f00dplays.com" target="_blank">f00d</a> and steamAPI by <a href="https://cma.dk" target="_blank">CMAndersen</a>  powered by <a href="http://www.steampowered.com" target=
-                "_blank">Steam, Praise Gaben</a> &copy; <?= date("Y"); ?></p>
+                <p>
+                Created by <a href="http://www.f00dplays.com" target="_blank">f00d</a>,
+                contributor <a href="https://github.com/Elte156" target="_blank">Elte156</a>,
+                and steamAPI by <a href="https://cma.dk" target="_blank">CMAndersen</a>,
+                powered by <a href="http://www.steampowered.com" target="_blank">Steam, Praise Gaben</a> &copy; <?= date("Y"); ?>
+                </p>
             </div>
         </div>
     </footer>
