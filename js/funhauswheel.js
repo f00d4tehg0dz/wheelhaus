@@ -4,8 +4,8 @@
 // --- Init Variables ---//
 reset();
 // --- Load DropDowns Before Spin --- //
-Category();
-Genre();
+loadCategory();
+loadGenre();
 // --- Reset Wheel --- //
 function reset() {
  
@@ -45,13 +45,14 @@ var _target, _deg = 0;
 function ordSequential() {
     return _deg = _deg + (45 * 3) + 1080;
 }
- 
+
 // --- Get Categories --- //
-function Category() {
+function loadCategory() {
     $.ajax({
         url: 'https://steam.cma.dk/categories',
         method: 'get',
         success: function(catData) {
+            catData = sortByName(catData);
             $.each(catData, function(index, obj) {
                 $('#category').append($('<option>', {
                     text: obj.name,
@@ -61,13 +62,14 @@ function Category() {
         }
     });
 }
- 
+
 // --- Get Genres --- //
-function Genre() {
+function loadGenre() {
     $.ajax({
         url: 'https://steam.cma.dk/genres',
         method: 'get',
         success: function(genreData) {
+            genreData = sortByName(genreData);
             $.each(genreData, function(index, obj) {
                 $('#genre').append($('<option>', {
                     text: obj.name,
@@ -77,7 +79,14 @@ function Genre() {
         }
     });
 }
- 
+
+function sortByName(array) {
+    return array.sort(function(a, b) {
+        var x = a['name']; var y = b['name'];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
 jQuery(document).ready(function($) {
 
 	$(".skills-wheelbtn").on("click", function(e){
