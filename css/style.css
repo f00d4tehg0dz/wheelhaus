@@ -361,10 +361,6 @@ li.gameName {
     display: none;
 }
 
-.gameName {
-    display: none;
-}
-
 .gameNameSelected {
     text-align: center;
     font-size: 2.5rem;
@@ -376,17 +372,12 @@ li.gameName {
 }
 
 .gameNameSelectedPlayTime {
-    display: none;
     text-align: center;
     margin-bottom: 35px;
     font-size: 1.1rem;
     font-weight: 200;
     list-style: none;
     color: #fff;
-}
-
-.appID,.gameName {
-    display: none;
 }
 
 .loginInfo {
@@ -445,14 +436,6 @@ li.gameName {
     padding: 0;
     position: absolute;
     z-index: -1;
-}
-
-.appIDdescription {
-    display: none;
-}
-
-.appDescription {
-    display: none;
 }
 
 #clipPolygon {
@@ -1336,3 +1319,5 @@ input[type="checkbox"] .styled:checked + label::before,input[type="radio"] .styl
 input[type="checkbox"] .styled:checked + label::after,input[type="radio"] .styled:checked + label::after {
     color: #fff;
 }
+
+[v-cloak] { display: none; }
