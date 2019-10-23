@@ -190,6 +190,12 @@ body {
     border: 3px solid #000000;
     border-radius: 0px;
 }
+
+#tags::placeholder,
+::placeholder {
+	color: #424242;
+}
+
 .selectpicker .btn {
   background-color: #141414;
   border-style: solid;
@@ -721,7 +727,7 @@ li.gameName {
     height: 100px;
     margin: 0 0 0 -50px;
     left: 50%;
-    line-height: 95px;
+    line-height: 18px;
     padding: 0;
     text-align: center;
     position: absolute;
@@ -735,7 +741,12 @@ li.gameName {
     z-index: 999;
     box-shadow: 3px 3px #000;
     width: 100px;
+    transition: all .25s ease-in-out;
 }
+
+.skills-wheelbtn:focus {
+    outline: 0;
+ }
 
 .skills-wheelbtn:hover {
    /* opacity: .8;*/

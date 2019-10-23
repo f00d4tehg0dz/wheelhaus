@@ -36,13 +36,16 @@ include "header.php";
                                 Choose your Genre
                             </option>
                         </select>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="tags" name="tags" placeholder="Choose your Tags" value=""/>
+                        </div>
                         <div class="form-check">
                             <label class="form-check-label free" for="free">
-                            <input class="form-check-input" id="free" name="free" value="" type="checkbox">Only Show Free Games</label> 
+                            <input class="form-check-input" id="free" name="free" value="" type="checkbox">Only Show Free Games</label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label free" for="vr">
-                            <input class="form-check-input" id="vr" name="vr" value="" type="checkbox">Exclude VR Games</label> 
+                            <input class="form-check-input" id="vr" name="vr" value="" type="checkbox">Exclude VR Games</label>
                         </div>
                 </div>
                 <div class="col-md-6">
@@ -50,7 +53,7 @@ include "header.php";
                         <div class="gameImageCopy"><img class="gameImageCopy" id="gameImageCopy" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></div>
                         <div class="skills-wheel">
                             <ul class="wheel"></ul>
-                        </div><a class="skills-wheelbtn" href="#/" title="spin">Spin</a>
+                        </div><button class="skills-wheelbtn" title="spin">Spin</button>
                     </div>
                 </div>
                 <div class="col dropDownSelection col-md-3">
@@ -102,24 +105,24 @@ include "header.php";
     <footer>
         <div class="container-fluid">
             <div class="col-md-12">
-                <p>created by <a href="http://www.f00dplays.com" target="_blank">f00d</a> and steamAPI by <a href="https://cma.dk" target="_blank">CMAndersen</a>  powered by <a href="http://www.steampowered.com" target=
-                "_blank">Steam, Praise Gaben</a> &copy; 2018</p>
+                <p>
+                Created by <a href="http://www.f00dplays.com" target="_blank">f00d</a>,
+                contributor <a href="https://github.com/Elte156" target="_blank">Elte156</a>,
+                and steamAPI by <a href="https://cma.dk" target="_blank">CMAndersen</a>,
+                powered by <a href="http://www.steampowered.com" target="_blank">Steam, Praise Gaben</a> &copy; <?= date("Y"); ?>
+                </p>
             </div>
         </div>
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"> </script> 
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script> 
-   <!--  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/jquery.amsify.suggestags.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script src="js/velocity.min.js">
-    </script> 
-    <script src="js/smoothscroll.js">
-    </script> 
-    <script src="js/globalscripts.js">
-    </script> 
-    <script src="js/funhauswheel.js">
-    </script>
+    <script src="js/velocity.min.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/globalscripts.js"></script>
+    <script src="js/funhauswheel.js"></script>
 </body>
 </html>

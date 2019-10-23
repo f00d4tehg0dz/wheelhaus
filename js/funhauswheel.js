@@ -3,9 +3,10 @@
 // *** Additional Support by cmandersen88 ***//
 // --- Init Variables ---//
 reset();
+var _tags = [];
 // --- Load DropDowns Before Spin --- //
-Category();
-Genre();
+loadCategory();
+loadGenre();
 // --- Reset Wheel --- //
 function reset() {
  
@@ -45,13 +46,14 @@ var _target, _deg = 0;
 function ordSequential() {
     return _deg = _deg + (45 * 3) + 1080;
 }
- 
+
 // --- Get Categories --- //
-function Category() {
+function loadCategory() {
     $.ajax({
         url: 'https://steam.cma.dk/categories',
         method: 'get',
         success: function(catData) {
+            catData = sortByName(catData);
             $.each(catData, function(index, obj) {
                 $('#category').append($('<option>', {
                     text: obj.name,
@@ -61,13 +63,14 @@ function Category() {
         }
     });
 }
- 
+
 // --- Get Genres --- //
-function Genre() {
+function loadGenre() {
     $.ajax({
         url: 'https://steam.cma.dk/genres',
         method: 'get',
         success: function(genreData) {
+            genreData = sortByName(genreData);
             $.each(genreData, function(index, obj) {
                 $('#genre').append($('<option>', {
                     text: obj.name,
@@ -77,8 +80,64 @@ function Genre() {
         }
     });
 }
- 
+
+// --- Get Tags --- //
+function loadTag() {
+    $.ajax({
+        url: 'https://steam.cma.dk/tags',
+        method: 'get',
+        success: function(tagData) {
+
+            // TODO: Remove this once endpoint gives real data
+            if (tagData.length == 0) {
+                tagData = [
+                    {id: 1, name: 'Sports'},
+                    {id: 2, name: 'Massively Multiplayer'},
+                    {id: 3, name: 'Gore'},
+                    {id: 4, name: 'Racing'},
+                    {id: 5, name: 'Great Soundtrack'},
+                    {id: 6, name: 'Nudity'},
+                    {id: 7, name: 'Atmospheric'},
+                    {id: 8, name: '2D'},
+                    {id: 9, name: 'Sexual Content'},
+                    {id: 10, name: 'Multiplayer'},
+                    {id: 11, name: 'Story Rich'},
+                    {id: 12, name: 'Difficult'},
+                    {id: 13, name: 'Anime'},
+                    {id: 14, name: 'VR'},
+                ];
+            }
+
+            tagNames = [];
+            _tags = sortByName(tagData);
+            $.each(_tags, function(index, obj) {
+                tagNames.push(obj.name);
+            });
+
+            var amsifySuggestags = new AmsifySuggestags($('input[name="tags"]'));
+            amsifySuggestags._settings({
+                type : 'bootstrap',
+                whiteList: true,
+                suggestions: tagNames,
+                tagLimit: 5,
+                noSuggestionMsg: 'No Matches'
+            })
+            amsifySuggestags._init();
+        }
+    });
+}
+
+function sortByName(array) {
+    return array.sort(function(a, b) {
+        var x = a['name']; var y = b['name'];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
 jQuery(document).ready(function($) {
+
+
+    loadTag(tags);
 
 	$(".skills-wheelbtn").on("click", function(e){
 		WheelSpin();
@@ -98,15 +157,19 @@ jQuery(document).ready(function($) {
             var catText = $('#category :selected').text();
             // --- Figure out if Free is Checked --- //
             var freeID = $('#free').is(':checked') ? 1 : 0;
-            // --- Figure our if Exclude VR is Checked --- //
+            // --- Figure out if Exclude VR is Checked --- //
             var vrID = $('#vr').is(':checked') ? 1 : 0;
+            // --- Figure out list of Tags --- //
+            var tagIDs = parseTags($('#tags').val());
+
             var dataSet = {
                 limit: 8,
                 random: 1,
                 category: catID,
                 genre: genreID,
                 free: freeID,
-                non_vr: vrID
+                non_vr: vrID,
+                tag: tagIDs,
             };
  
             // --- future Array --- //
@@ -121,15 +184,38 @@ jQuery(document).ready(function($) {
                 cache: false,
                 success: function(data) {
                     $('.wheel').empty();
-                    $.each(data, function(i, item) {
-                        $('.wheel').append('<li><img id=clipPolygon style="background-image: url(' + item.image + ')";><a class=gameName>' + item.name + '</a><a class=appID>' + item.id + '</a><div class=appDescription>' + item.description + '</div><div class=gameNamePrice>' + item.price + '</div><div class=gameNameRating>' + item.score + '</div></li)>');
- 
-                    });
-                    spinWheel();
+
+                    // Determine if we can spin the wheel
+                    if (data.length > 0) {
+                        $.each(data, function(i, item) {
+                            $('.wheel').append('<li><img id=clipPolygon style="background-image: url(' + item.image + ')";><a class=gameName>' + item.name + '</a><a class=appID>' + item.id + '</a><div class=appDescription>' + item.description + '</div><div class=gameNamePrice>' + item.price + '</div><div class=gameNameRating>' + item.score + '</div></li)>');
+                        });
+                        spinWheel();
+                    }
+                    else {
+                        // Empty Results
+                        $(".skills-wheelbtn").text("No Results");
+                    }
                 }
             });
         }
- 		
+
+        function parseTags(tags) {
+            var tagIDs = [];
+
+            // Get Names
+            var array = tags.split(',');
+            // Map Tag Name to Tag ID
+            array.forEach(name => {
+                var found = _tags.filter(function(item) { return item.name === name; });
+                if (found && found[0] && found[0].id) {
+                    tagIDs.push(found[0].id);
+                }
+            });
+
+            return tagIDs;
+        }
+
         function spinWheel() {
  
             if ($('#audioBtn:contains("Turn Audio On")').length) {} else {
