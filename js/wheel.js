@@ -98,18 +98,18 @@ var wheel = new Vue({
             this.deg = this.$_ordSequential();
             this.target = (this.deg - (360 * parseInt(this.deg / 360))) / 45;
 
-            $('.wheel').children('li').velocity({
+            $(this.$refs['wheel'].childNodes).velocity({
                 opacity: 1
             }, {
                 duration: 0,
                 complete: function() {
-                    $(".wheel").velocity({
+                    $(this.$refs['wheel']).velocity({
                         rotateZ: "-" + this.deg + "deg"
                     }, {
                         duration: 4000,
                         complete: function(elements) {
                             // after spinning animation is completed, set opacity of target segment's parent
-                            $('.wheel').children('li').eq(this.target).velocity({
+                            $(this.$refs['game_' + this.target]).velocity({
                                 opacity: 0.4
                             }, {
                                 duration: 100,

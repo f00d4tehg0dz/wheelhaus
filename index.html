@@ -69,8 +69,8 @@
                             <img :src="winner ? winner.image : null" :class="{show: winner}">
                         </div>
                         <div class="skills-wheel">
-                            <ul class="wheel">
-                                <li v-for="game in games"><img id=clipPolygon :style="{backgroundImage: 'url(' + game.image + ')'}"></li>
+                            <ul class="wheel" ref="wheel">
+                                <li v-for="(game, index) in games" :key="index" :ref="'game_' + index"><img id=clipPolygon :style="{backgroundImage: 'url(' + game.image + ')'}"></li>
                             </ul>
                         </div><a class="skills-wheelbtn" title="spin" @click="spin">{{ loading ? 'Loading' : spinning ? 'Spinning' : 'Spin' }}</a>
                     </div>
