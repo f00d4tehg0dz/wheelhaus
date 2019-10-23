@@ -22,11 +22,11 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">All Games <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">All Games <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link" href="usergames.php">My Steam Library</a>
-            </li>
+            </li>-->
             <li class="nav-item">
                 <a class="nav-link smoothScroll" href="#steamFaq">FAQ</a>
             </li>
@@ -42,6 +42,7 @@
             <div class="row">
                 <div class="dropDownSelection col-md-3">
                     <h2>Filter</h2>
+                    <input type="text" id="username" name="username" v-model="username" class="form-control" placeholder="Write your Steam username">
                     <select class="form-control selectpicker" id="category" name="category" v-model="selectedCategory">
                         <option selected :value="null">
                             Choose your Category
@@ -146,6 +147,6 @@
 </script>
 <script src="js/funhauswheel.js">
 </script>-->
-<script src="/js/wheel.js"></script>
+<script src="js/wheel.js"></script>
 </body>
 </html>

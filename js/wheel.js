@@ -11,6 +11,7 @@ var wheel = new Vue({
             games: [],
             selectedCategory: null,
             selectedGenre: null,
+            username: null,
             free: 0,
             non_vr: 0,
             mp3: new Audio('./music/thewheelhausaudio.mp3'),
@@ -34,7 +35,8 @@ var wheel = new Vue({
                     category: this.selectedCategory,
                     genre: this.selectedGenre,
                     free: this.free,
-                    non_vr: this.non_vr
+                    non_vr: this.non_vr,
+                    username: this.username || null,
                 },
                 cache: false,
                 success: function(games) {
@@ -113,7 +115,6 @@ var wheel = new Vue({
                                 opacity: 0.4
                             }, {
                                 duration: 100,
-                                // after opacity is completed, fire targeted segment in fancybox
                                 complete: function() {
                                     this.winner = this.games[this.target];
 

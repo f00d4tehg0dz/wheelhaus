@@ -190,6 +190,9 @@ body {
     border: 3px solid #000000;
     border-radius: 0px;
 }
+.form-control::placeholder {
+    color: #424242;
+}
 .selectpicker .btn {
   background-color: #141414;
   border-style: solid;
@@ -640,8 +643,9 @@ li.gameName {
     display: none;
 }
 
-#category,#genre{
+#category,#genre,#username{
     margin-bottom: 20px;
+    height: calc(2.25rem + 2px);
 }
 
 .free {
