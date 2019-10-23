@@ -51,15 +51,7 @@ var wheel = new Vue({
                 url: this.api + 'categories',
                 method: 'get',
                 success: function(categories) {
-                    categories.sort(function (a, b) {
-                        if (a.name < b.name) {
-                            return -1;
-                        }
-                        if (b.name < a.name) {
-                            return 1;
-                        }
-                        return 0;
-                    });
+                    categories.sort(this.$_sort);
 
                     this.categories = categories;
                 }.bind(this)
@@ -70,15 +62,7 @@ var wheel = new Vue({
                 url: this.api + 'genres',
                 method: 'get',
                 success: function(genres) {
-                    genres.sort(function (a, b) {
-                        if (a.name < b.name) {
-                            return -1;
-                        }
-                        if (b.name < a.name) {
-                            return 1;
-                        }
-                        return 0;
-                    });
+                    genres.sort(this.$_sort);
 
                     this.genres = genres;
                 }.bind(this)
@@ -140,6 +124,15 @@ var wheel = new Vue({
         },
         startPlaying: function () {
             window.location.href = "steam://run/" + this.winner.id;
+        },
+        $_sort: function (a, b) {
+            if (a.name < b.name) {
+                return -1;
+            }
+            if (b.name < a.name) {
+                return 1;
+            }
+            return 0;
         }
     }
 });
