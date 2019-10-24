@@ -222,3 +222,12 @@ var wheel = new Vue({
         }
     }
 });
+
+var footer = new Vue({
+    el: '#footer',
+    data: function () {
+        return {
+            date: new Date().getFullYear()
+        };
+    }
+});
