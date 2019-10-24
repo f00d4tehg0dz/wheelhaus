@@ -7,6 +7,10 @@ Vue.component('wheel', {
         value: {
             type: Object
         },
+        enableSound: {
+            type: Boolean,
+            default: true
+        },
         category: null,
         genre: null,
         tag: null,
@@ -21,7 +25,8 @@ Vue.component('wheel', {
             spinning: false,
             deg: 0,
             target: 0,
-            empty: false
+            empty: false,
+            mp3: new Audio('./music/thewheelhausaudio.mp3')
         };
     },
     template: "<div id='gameWheel'>\
@@ -65,7 +70,7 @@ Vue.component('wheel', {
             this.spinning = true;
 
             this.$emit('input', null);
-            this.$emit('play-sound');
+            this.$_playSound();
 
             this.deg = this.$_ordSequential();
             this.target = (this.deg - (360 * parseInt(this.deg / 360))) / 45;
@@ -112,6 +117,14 @@ Vue.component('wheel', {
         $_ordSequential: function () {
             return this.deg + (45 * 3) + 1080;
         },
+        $_playSound: function () {
+            if (this.enableSound) {
+                if (this.mp3.paused)
+                    this.mp3.play();
+                else
+                    this.mp3.pause();
+            }
+        },
     }
 });
 
@@ -130,7 +143,6 @@ var wheel = new Vue({
             username: null,
             free: 0,
             non_vr: 0,
-            mp3: new Audio('./music/thewheelhausaudio.mp3'),
             winner: null
         };
     },
@@ -190,14 +202,6 @@ var wheel = new Vue({
                     amsifySuggestags._init();
                 }.bind(this)
             });
-        },
-        $_playSound: function () {
-            if (this.enable_sound) {
-                if (this.mp3.paused)
-                    this.mp3.play();
-                else
-                    this.mp3.pause();
-            }
         },
         startPlaying: function () {
             window.location.href = "steam://run/" + this.winner.id;
