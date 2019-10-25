@@ -1,5 +1,9 @@
 /* === Site Designed by Adrian Chrysanthou (f00dplays) === */
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* === Font === */
 @font-face {
     font-family: 'BreakersSlab';
@@ -188,13 +192,20 @@ body {
     color: #424242;
     background-color: #fe8204;
     border: 3px solid #000000;
-    border-radius: 0px;
+    border-radius: 0;
+    margin-bottom: 20px;
+    padding: .375rem .5rem;
+}
+
+.form-control::placeholder, ::placeholder {
+    color: #424242 !important;
 }
 
 #tags::placeholder,
 ::placeholder {
-	color: #424242;
+    color: #424242;
 }
+
 
 .selectpicker .btn {
   background-color: #141414;
@@ -367,10 +378,6 @@ li.gameName {
     display: none;
 }
 
-.gameName {
-    display: none;
-}
-
 .gameNameSelected {
     text-align: center;
     font-size: 2.5rem;
@@ -382,17 +389,12 @@ li.gameName {
 }
 
 .gameNameSelectedPlayTime {
-    display: none;
     text-align: center;
     margin-bottom: 35px;
     font-size: 1.1rem;
     font-weight: 200;
     list-style: none;
     color: #fff;
-}
-
-.appID,.gameName {
-    display: none;
 }
 
 .loginInfo {
@@ -451,14 +453,6 @@ li.gameName {
     padding: 0;
     position: absolute;
     z-index: -1;
-}
-
-.appIDdescription {
-    display: none;
-}
-
-.appDescription {
-    display: none;
 }
 
 #clipPolygon {
@@ -663,8 +657,8 @@ li.gameName {
     display: none;
 }
 
-#category,#genre{
-    margin-bottom: 20px;
+#category,#genre,#username{
+    height: calc(2.25rem + 2px);
 }
 
 .free {
@@ -1347,3 +1341,5 @@ input[type="checkbox"] .styled:checked + label::before,input[type="radio"] .styl
 input[type="checkbox"] .styled:checked + label::after,input[type="radio"] .styled:checked + label::after {
     color: #fff;
 }
+
+[v-cloak] { display: none; }
