@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="dropDownSelection col-md-3">
                         <h2>Filter</h2>
-                        <input type="text" id="username" name="username" v-model="username" class="form-control" placeholder="Write your Steam username">
+                        <input type="text" id="username" name="username" v-model="username" class="form-control" placeholder="By Steam Username">
                         <select class="form-control selectpicker" id="category" name="category" v-model="selectedCategory">
                             <option selected :value="null">
                                 Choose your Category
@@ -111,6 +111,12 @@
                     <p>Yes, this list is updated on the fly (thanks to <a href="https://cma.dk" target="_blank">CMAndersen</a>), and includes all Steam Games + Free ones as well.</p>
                     <h1>Why do some Steam Games have no image?</h1>
                     <p>Certain games in the Steam library are missing the image ID. So you will have an empty spot</p>
+                    <h1>Your Steam Username Library not loading?</h1>
+                    <p>
+                        Your Steam profile and game library needs to be publicly available.
+                        If it's set to private or friends-only, thewheelhaus cannot read your game library.
+                        You can visit <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401" target="_blank"><b>here</b></a> to change your "Game Details" to public.
+                    </p>
                     <h1>Can I buy you a beer?</h1>
                     <p>Sure! Beer money is awesome</p>
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
