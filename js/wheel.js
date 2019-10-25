@@ -104,6 +104,9 @@ Vue.component('wheel', {
         spin: function () {
             this.loading = true;
 
+            // Clear previous selected game
+            this.$emit('input', null);
+
             this.$_loadGames(function () {
                 this.loading = false;
 
@@ -230,4 +233,9 @@ var footer = new Vue({
             date: new Date().getFullYear()
         };
     }
+});
+
+// Hide Bootstrap 4 Nav menu onclick
+$('.navbar-nav>li>a').on('click', function(){
+    $('.navbar-collapse').collapse('hide');
 });

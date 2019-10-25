@@ -1,5 +1,9 @@
 /* === Site Designed by Adrian Chrysanthou (f00dplays) === */
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* === Font === */
 @font-face {
     font-family: 'BreakersSlab';
