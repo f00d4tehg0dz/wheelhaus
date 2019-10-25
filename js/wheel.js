@@ -234,3 +234,8 @@ var footer = new Vue({
         };
     }
 });
+
+// Hide Bootstrap 4 Nav menu onclick
+$('.navbar-nav>li>a').on('click', function(){
+    $('.navbar-collapse').collapse('hide');
+});
