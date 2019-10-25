@@ -104,6 +104,9 @@ Vue.component('wheel', {
         spin: function () {
             this.loading = true;
 
+            // Clear previous selected game
+            this.$emit('input', null);
+
             this.$_loadGames(function () {
                 this.loading = false;
 
