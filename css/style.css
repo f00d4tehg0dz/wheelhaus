@@ -31,7 +31,7 @@ li {
        -webkit-transition: all .25s ease-in-out;
     -moz-transition: all .25s ease-in-out;
     -ms-transition: all .25s ease-in-out;
-    -o-transition: all .25s ease-in-out; 
+    -o-transition: all .25s ease-in-out;
     transition: all .25s ease-in-out;
 }
 
@@ -89,7 +89,9 @@ body {
     color: rgba(255,255,255,.62);
     background-color: transparent;
 }
-
+.nav-item{
+  line-height: 3em;
+}
 /* === Buttons === */
 .btn {
     color: #fff;
@@ -119,7 +121,30 @@ body {
     text-decoration: none;
 }
 
-
+.btn-discord{
+    color:#fff;
+    border:1px solid #7289DA!important;
+    background-color:#7289DA!important;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-discord:hover {
+    opacity:0.8;
+    color:white;
+}
 
 #audioBtn, .launchGame
 {
@@ -130,7 +155,7 @@ body {
   font-family: inherit;
   font-weight: 300;
   margin: 0em auto;
-  position: relative; 
+  position: relative;
   top:0; right:0; bottom:0; left:0;
   padding: 10px 0;
   width: 200px;
@@ -141,7 +166,7 @@ body {
   transition: all 0.5s;
 }
 
-#audioBtn:hover, #audioBtn:active, .launchGame:hover, .launchGame:active 
+#audioBtn:hover, #audioBtn:active, .launchGame:hover, .launchGame:active
 {
   text-decoration: none;
   color: #000;
@@ -149,7 +174,7 @@ body {
   background: #FFF;
 }
 
-#audioBtn span 
+#audioBtn span
 {
   display: block;
   position: relative;
@@ -157,7 +182,7 @@ body {
   transition: padding-right 0.5s;
 }
 
-#audioBtn span:after 
+#audioBtn span:after
 {
     content: ' ';
     position: absolute;
@@ -174,7 +199,7 @@ body {
     transition: opacity 0.5s, top 0.5s, right 0.5s;
 }
 
-#audioBtn:hover span, #audioBtn:active span 
+#audioBtn:hover span, #audioBtn:active span
 {
   padding-right: 20px;
 }
@@ -287,7 +312,7 @@ a {
 a:hover {
     color: rgba(255,255,255,.62);
     text-decoration: none;
-  
+
 
 }
 
@@ -321,8 +346,8 @@ a:focus,a:focus:hover {
     color: #fff;
     text-align: center;
     font-size: 3.5rem;
-    font-family: 'BreakersSlab'; 
-    font-weight: bold; 
+    font-family: 'BreakersSlab';
+    font-weight: bold;
     font-style: normal;
     list-style: none;
     color: #fff;
@@ -341,14 +366,14 @@ a:focus,a:focus:hover {
 }
 .panel {
     border: 0px solid transparent;
-    margin-bottom: 0px; 
-    background-color: inherit; 
-    border-radius: 0px; 
-    -webkit-box-shadow: 0 0px 0px rgba(0,0,0,.0); 
-    box-shadow: 0 0px 0px rgba(0,0,0,.0); 
+    margin-bottom: 0px;
+    background-color: inherit;
+    border-radius: 0px;
+    -webkit-box-shadow: 0 0px 0px rgba(0,0,0,.0);
+    box-shadow: 0 0px 0px rgba(0,0,0,.0);
 }
 .panel-default {
-    border-color: initial; 
+    border-color: initial;
 }
 .panel-heading {
     padding: 10px 15px;
@@ -381,8 +406,8 @@ li.gameName {
 .gameNameSelected {
     text-align: center;
     font-size: 2.5rem;
-    font-family: 'BreakersSlab'; 
-    font-weight: bold; 
+    font-family: 'BreakersSlab';
+    font-weight: bold;
     font-style: normal;
     list-style: none;
     color: #fff;
@@ -704,7 +729,7 @@ li.gameName {
     border-style: solid;
     border-width: 32px 32px 0;
     border-color: #000 transparent transparent;
-    content: ""; 
+    content: "";
     height: 0;
     left: 50%;
     margin-left: -32px;
@@ -1013,7 +1038,7 @@ footer p{
     margin:0;
 }
 
-/* === Media Queries === */ 
+/* === Media Queries === */
 
 @media (min-width:321px) and (max-width:481px) {
     .overlay ul li a {
@@ -1042,7 +1067,11 @@ footer p{
         font-size: 2.1em;
     }
 }
-
+@media (max-width: 991px) {
+  .nav-item{
+    line-height: 1em;
+  }
+}
 @media (min-width: 2200px) {
     .steamLogo {
         top: 20%;
