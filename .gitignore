@@ -2,3 +2,6 @@
 /.history
 thewheelhaus/yarn.lock
 thewheelhaus/package-lock.json
+*.lock
+package-lock.json
+/node_modules
