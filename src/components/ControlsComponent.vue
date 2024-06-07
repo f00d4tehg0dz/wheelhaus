@@ -128,15 +128,15 @@ const sort = (a: Category | Genre | Tag, b: Category | Genre | Tag) => {
   return 0
 }
 
-const getTagId = (tagName: string): number | null => {
+const getTagId = (tagName: string): number => {
   const tag = tags.value.find((tag: { name: string }) => tag.name === tagName)
-  return tag ? tag.id : null
+  return tag ? tag.id : -1
 }
 
 const addTag = (newTag: string) => {
   const existingTag = tags.value.find((tag: { name: string }) => tag.name === newTag)
   if (!existingTag) {
-    const newTagObj: Tag = { id: null, name: newTag }
+    const newTagObj: Tag = { id: -1, name: newTag }
     tags.value.push(newTagObj)
     localSelectedTag.value.push(newTagObj)
   }
