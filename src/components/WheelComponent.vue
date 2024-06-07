@@ -139,11 +139,11 @@ onMounted(() => {
 <template>
   <div id="gameWheel" class="relative">
     <div class="gameImageCopy" v-show="winner" transition="fadeIn">
-      <img :src="winner ? winner.image : null" :class="{ show: winner }">
+      <img :src="winner?.image ?? undefined" :class="{ show: winner }">
     </div>
     <div class="skills-wheel">
       <ul class="wheel" ref="wheelRef">
-        <li v-for="(game, index) in games" :key="index" :ref="index">
+        <li v-for="(game, index) in games" :key="index">
           <img id="clipPolygon" :style="{ backgroundImage: 'url(' + game.image + ')' }">
         </li>
       </ul>
@@ -151,6 +151,7 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
 <style scoped>
 #gameWheel {
   display: block;
@@ -253,13 +254,13 @@ onMounted(() => {
 
 .wheel li {
   position: absolute;
-    width: 100%;
-    height: 100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    transform-origin: center center;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transform-origin: center center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
 }
 
 .wheel li:nth-child(1) {
