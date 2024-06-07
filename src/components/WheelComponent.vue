@@ -126,7 +126,7 @@ const playSound = () => {
 }
 
 onMounted(() => {
-  mp3.value = new Audio('/src/assets/music/thewheelhausaudio.mp3')
+  mp3.value = new Audio('../music/thewheelhausaudio.mp3')
   mp3.value.addEventListener('canplaythrough', () => {
     console.log('Audio file can be played through without stopping')
   })
@@ -166,9 +166,9 @@ onMounted(() => {
   display: block;
   position: absolute;
   width: 100%;
-  background-image: url(../images/overlay_bg.png);
-  background-repeat: no-repeat;
-  background-size: 100% 1080px;
+  /* background-image: url(../images/overlay_bg.png); */
+  /* background-repeat: no-repeat;
+  background-size: 100% 1080px; */
 }
 
 .skills-wheel {
