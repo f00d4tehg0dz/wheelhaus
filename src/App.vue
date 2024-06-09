@@ -103,7 +103,7 @@ interface Game {
           <p class="mb-4">
             Your Steam profile and game library needs to be publicly available.
             If it's set to private or friends-only, thewheelhaus cannot read your game library.
-            You can visit <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401" target="_blank" class="text-blue-500 hover:text-blue-700"><b>here</b></a> to change your "Game Details" to public.
+            You can visit <a href="https://steamcommunity.com/my/edit/settings?" target="_blank" class="text-blue-500 hover:text-blue-700" aria-label="Steam Privacy Profile Settings"><b>here</b></a> to change your "Game Details" to public.
           </p>
           <h1 class="text-2xl font-bold mb-4">Can I monetarily thank you?</h1>
           <p class="mb-4"><strong>Sure!</strong></p>
