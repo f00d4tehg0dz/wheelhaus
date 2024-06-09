@@ -138,6 +138,7 @@ onMounted(() => {
 
 <template>
   <div id="gameWheel" class="relative">
+    <button class="skills-wheelbtn" title="spin" @click="spin">{{ loading ? 'Loading' : spinning ? 'Spinning' : empty ? 'No results' : 'Spin' }}</button>
     <div class="gameImageCopy" v-show="winner" transition="fadeIn">
       <img :src="winner?.image ?? undefined" :class="{ show: winner }">
     </div>
@@ -147,7 +148,7 @@ onMounted(() => {
           <img id="clipPolygon" :style="{ backgroundImage: 'url(' + game.image + ')' }">
         </li>
       </ul>
-      <button class="skills-wheelbtn" title="spin" @click="spin">{{ loading ? 'Loading' : spinning ? 'Spinning' : empty ? 'No results' : 'Spin' }}</button>
+     
     </div>
   </div>
 </template>
