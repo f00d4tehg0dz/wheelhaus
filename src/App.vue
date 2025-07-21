@@ -4,7 +4,6 @@ import Header from './components/Header.vue'
 import Footer from './components/Footers.vue'
 import WheelComponent from './components/WheelComponent.vue'
 import ControlsComponent from './components/ControlsComponent.vue'
-
 const api = ref('https://steam.cma.dk/')
 const enableSound = ref(true)
 const selectedCategory = ref<string | null>(null)
@@ -14,6 +13,8 @@ const username = ref<string | null>(null)
 const free = ref(false)
 const nonVr = ref(false)
 const winner = ref<Game | null>(null)
+
+const showDonateModal = ref(false)
 
 const startPlaying = () => {
   if (winner.value) {
@@ -105,11 +106,26 @@ interface Game {
             If it's set to private or friends-only, thewheelhaus cannot read your game library.
             You can visit <a href="https://steamcommunity.com/my/edit/settings?" target="_blank" class="text-blue-500 hover:text-blue-700" aria-label="Steam Privacy Profile Settings"><b>the Steam Privacy Profile Settings</b></a> to change your "Game Details" to public.
           </p>
-          <h1 class="text-2xl font-bold mb-4">Donate to thewheelhaus</h1>
-          <p class="mb-4">Bitcoin: <strong>3EDFUfa5bRKZH478m5JtMdXn5PYoxrJjH7</strong></p>
-          <p class="mb-4">Ethereum: <strong>0x4d11D9c4518f341A458d0EB055b9D9f977C1A992</strong></p>
-          <p class="mb-4">How can I contact you?</p>
-          <p>You can email me at <a href="mailto:adrianvfx@gmail.com" class="text-blue-500 hover:text-blue-700">adrianvfx@gmail.com</a></p>
+          <div class="mb-4">
+            <h1 class="text-2xl font-bold mb-4">How can I contact you?</h1>
+            <p>You can email me at <a href="mailto:adrianvfx@gmail.com" class="text-blue-500 hover:text-blue-700">adrianvfx@gmail.com</a></p>
+          </div>
+          <button @click="showDonateModal = true" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded mb-4">Donate to thewheelhaus</button>
+          <div v-if="showDonateModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
+            <div class="bg-gray-800 p-8 rounded shadow-lg w-full max-w-md relative">
+              <button @click="showDonateModal = false" class="absolute top-2 right-2 text-white text-2xl">&times;</button>
+              <h2 class="text-xl font-bold mb-4 text-white">Donate to thewheelhaus</h2>
+              <div class="mb-4">
+                <span class="text-white font-semibold">Bitcoin:</span>
+                <span class="text-orange-400 select-all"> 3EDFUfa5bRKZH478m5JtMdXn5PYoxrJjH7 </span>
+              </div>
+              <div class="mb-4">
+                <span class="text-white font-semibold">Ethereum:</span>
+                <span class="text-blue-400 select-all"> 0x4d11D9c4518f341A458d0EB055b9D9f977C1A992 </span>
+              </div>
+              <div class="text-gray-300 text-sm">Thank you for supporting the project!</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
