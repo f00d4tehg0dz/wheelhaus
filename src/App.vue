@@ -105,18 +105,9 @@ interface Game {
             If it's set to private or friends-only, thewheelhaus cannot read your game library.
             You can visit <a href="https://steamcommunity.com/my/edit/settings?" target="_blank" class="text-blue-500 hover:text-blue-700" aria-label="Steam Privacy Profile Settings"><b>the Steam Privacy Profile Settings</b></a> to change your "Game Details" to public.
           </p>
-          <h1 class="text-2xl font-bold mb-4">Can I monetarily thank you?</h1>
-          <p class="mb-4"><strong>Sure!</strong></p>
-          <p class="mb-4">Bitcoin: <strong>bc1qj2escmrpphnr3uj4xe7whch57l593uyxqh0ese</strong></p>
-          <p class="mb-4">Ethereum: <strong>0x4eb833601a09d0A54860D3f10c25864e76Cd0559</strong></p>
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="mb-4">
-            <input type="hidden" name="cmd" value="_donations" />
-            <input type="hidden" name="business" value="adrianvfx@gmail.com" />
-            <input type="hidden" name="item_name" value="Wheelhaus Website" />
-            <input type="hidden" name="currency_code" value="USD" />
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-            <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-          </form>
+          <h1 class="text-2xl font-bold mb-4">Donate to thewheelhaus</h1>
+          <p class="mb-4">Bitcoin: <strong>3EDFUfa5bRKZH478m5JtMdXn5PYoxrJjH7</strong></p>
+          <p class="mb-4">Ethereum: <strong>0x4d11D9c4518f341A458d0EB055b9D9f977C1A992</strong></p>
           <p class="mb-4">How can I contact you?</p>
           <p>You can email me at <a href="mailto:adrianvfx@gmail.com" class="text-blue-500 hover:text-blue-700">adrianvfx@gmail.com</a></p>
         </div>

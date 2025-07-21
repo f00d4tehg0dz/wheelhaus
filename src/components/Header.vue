@@ -10,6 +10,11 @@ const navigation = [
     name: 'Add Discord Bot',
     href: 'https://discordapp.com/oauth2/authorize?client_id=636141023789056002&scope=bot&permissions=8',
     current: false
+  },
+  {
+    name: 'Demodisk',
+    href: 'https://www.demodisk.app/',
+    current: false
   }
 ]
 
@@ -41,6 +46,11 @@ const isOpen = ref(false)
                     <i class="fab fa-discord"></i>&nbsp; {{ item.name }} &nbsp;
                   </button>
                 </span>
+                <span v-else-if="item.name === 'Demodisk'">
+                  <button type="button" class="btn bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    {{ item.name }}
+                  </button>
+                </span>
                 <span v-else>
                   {{ item.name }}
                 </span>
@@ -57,6 +67,11 @@ const isOpen = ref(false)
           <span v-if="item.name === 'Add Discord Bot'">
             <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               <i class="fab fa-discord"></i>&nbsp; {{ item.name }} &nbsp;
+            </button>
+          </span>
+          <span v-else-if="item.name === 'Demodisk'">
+            <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              {{ item.name }}
             </button>
           </span>
           <span v-else>

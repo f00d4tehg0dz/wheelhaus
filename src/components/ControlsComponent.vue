@@ -2,7 +2,9 @@
   <div class="controls">
     <div class="dropDownSelection w-full md:w-1/1 px-4 mb-4 md:mb-0">
       <h2 class="text-2xl mb-4">Filter</h2>
-      <input type="text" id="username" name="username" v-model="localUsername" class="form-control mb-4 p-2 border border-gray-400 rounded" placeholder="By Steam Username">
+      <input type="text" id="username" name="username" v-model="localUsername" class="form-control mb-4 p-2 border border-gray-400 rounded" placeholder="By Steam Username"
+        title="Your Steam profile and game library must be public for Wheelhaus to access your games. Go to Steam Privacy Profile Settings and set 'Game Details' to public: https://steamcommunity.com/my/edit/settings?"
+      >
       <select class="form-control mb-4 p-2 border border-gray-400 rounded" id="category" name="category" v-model="localSelectedCategory">
         <option selected :value="null">Choose your Category</option>
         <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}</option>
