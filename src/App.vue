@@ -4,6 +4,7 @@ import Header from './components/Header.vue'
 import Footer from './components/Footers.vue'
 import WheelComponent from './components/WheelComponent.vue'
 import ControlsComponent from './components/ControlsComponent.vue'
+import { inject } from '@vercel/analytics'
 const api = ref('https://steam.cma.dk/')
 const enableSound = ref(true)
 const selectedCategory = ref<string | null>(null)
@@ -15,6 +16,9 @@ const nonVr = ref(false)
 const winner = ref<Game | null>(null)
 
 const showDonateModal = ref(false)
+
+// Initialize Vercel Analytics
+inject()
 
 const startPlaying = () => {
   if (winner.value) {
