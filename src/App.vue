@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import Header from './components/Header.vue'
 import Footer from './components/Footers.vue'
 import WheelComponent from './components/WheelComponent.vue'
@@ -19,6 +19,11 @@ const showDonateModal = ref(false)
 
 // Initialize Vercel Analytics
 inject()
+
+// Watch for winner changes
+watch(winner, (newWinner) => {
+  console.log('Winner changed in App.vue:', newWinner)
+})
 
 const startPlaying = () => {
   if (winner.value) {
@@ -93,7 +98,7 @@ interface Game {
             </div>
             <li v-if="winner.time_played" class="gameNameSelectedPlayTime mb-2">You have played this game for {{ winner.time_played }} hours</li>
             <li class="mb-2">
-              <button class="launchGame bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" @click="startPlaying">Launch the Game</button>
+              <button class="launchGame bg-orange-500 hover:bg-orange-600  text-white font-bold py-2 px-4 rounded" @click="startPlaying">Launch the Game</button>
             </li>
           </ul>
         </div>
@@ -101,18 +106,18 @@ interface Game {
       <div class="w-full">
         <div id="steamFaq">
           <h1 class="text-2xl font-bold mb-4">Does this access every Steam Game?</h1>
-          <p class="mb-4">Yes! thanks to <a href="https://cma.dk" target="_blank" class="text-blue-500 hover:text-blue-700">CMAndersen</a></p>
+          <p class="mb-4">Yes! thanks to <a href="https://cma.dk" target="_blank" class="text-green-500 hover:text-green-400">CMAndersen</a></p>
           <h1 class="text-2xl font-bold mb-4">Why do some Steam Games have no image?</h1>
           <p class="mb-4">Certain games in the Steam library are missing the image ID. So you will have an empty spot</p>
           <h1 class="text-2xl font-bold mb-4">Your Steam Username Library not loading?</h1>
           <p class="mb-4">
             Your Steam profile and game library needs to be publicly available.
             If it's set to private or friends-only, thewheelhaus cannot read your game library.
-            You can visit <a href="https://steamcommunity.com/my/edit/settings?" target="_blank" class="text-blue-500 hover:text-blue-700" aria-label="Steam Privacy Profile Settings"><b>the Steam Privacy Profile Settings</b></a> to change your "Game Details" to public.
+            You can visit <a href="https://steamcommunity.com/my/edit/settings?" target="_blank" class="text-green-500 hover:text-green-400" aria-label="Steam Privacy Profile Settings"><b>the Steam Privacy Profile Settings</b></a> to change your "Game Details" to public.
           </p>
           <div class="mb-4">
             <h1 class="text-2xl font-bold mb-4">How can I contact you?</h1>
-            <p>You can email me at <a href="mailto:adrianvfx@gmail.com" class="text-blue-500 hover:text-blue-700">adrianvfx@gmail.com</a></p>
+            <p>You can email me at <a href="mailto:adrianvfx@gmail.com" class="text-green-500 hover:text-green-400">adrianvfx@gmail.com</a></p>
           </div>
           <button @click="showDonateModal = true" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded mb-4">Donate to thewheelhaus</button>
           <div v-if="showDonateModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">

@@ -3,8 +3,26 @@
     <div class="dropDownSelection w-full md:w-1/1 px-4 mb-4 md:mb-0">
       <h2 class="text-2xl mb-4">Filter</h2>
       <input type="text" id="username" name="username" v-model="localUsername" class="form-control mb-4 p-2 border border-gray-400 rounded" placeholder="By Steam Username"
-        title="Your Steam profile and game library must be public for Wheelhaus to access your games. Go to Steam Privacy Profile Settings and set 'Game Details' to public: https://steamcommunity.com/my/edit/settings?"
+        title="Enter your Steam ID (not display name). To find it: 1) Go to your Steam profile page, 2) Look at the URL - your Steam ID is the long number (e.g., 76561199025593371). Your profile must be public: https://steamcommunity.com/my/edit/settings?"
+        @focus="handleUsernameFocus"
+        @blur="handleUsernameBlur"
       >
+      <!-- Steam ID Help Section -->
+      <div v-if="showUsernameHelp" class="steam-id-help mb-4" @mouseenter="handleUsernameFocus" @mouseleave="handleUsernameBlur">
+        <div class="help-content">
+          <h4 class="help-title">How to find your Steam ID:</h4>
+          <ol class="help-steps">
+            <li>Go to your <a href="https://steamcommunity.com/my/profile" target="_blank" class="help-link">Steam profile page</a></li>
+            <li>Look at the URL in your browser's address bar</li>
+            <li>Your Steam ID is the long number (e.g., <code class="steam-id-example">76561199025593371</code>)</li>
+            <li>Copy and paste this number into the field above</li>
+          </ol>
+          <div class="help-note">
+            <strong>Note:</strong> Your Steam profile must be public for Wheelhaus to access your games. 
+            <a href="https://steamcommunity.com/my/edit/settings?" target="_blank" class="help-link">Make your profile public here</a>
+          </div>
+        </div>
+      </div>
       <select class="form-control mb-4 p-2 border border-gray-400 rounded" id="category" name="category" v-model="localSelectedCategory">
         <option selected :value="null">Choose your Category</option>
         <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}</option>
@@ -44,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import axios from 'axios'
 import Multiselect from 'vue-multiselect'
 import '../../node_modules/vue-multiselect/dist/vue-multiselect.css'
@@ -92,6 +110,8 @@ const localSelectedTag = ref(props.selectedTag ? props.selectedTag.map((tagName:
 const localFree = ref(props.free)
 const localNonVr = ref(props.nonVr)
 const localUsername = ref(props.username)
+const showUsernameHelp = ref(false)
+let helpTimeout: number | null = null
 
 const loadCategories = async () => {
   try {
@@ -144,6 +164,38 @@ const addTag = (newTag: string) => {
   }
 }
 
+const handleUsernameFocus = () => {
+  if (helpTimeout) {
+    clearTimeout(helpTimeout)
+    helpTimeout = null
+  }
+  showUsernameHelp.value = true
+}
+
+const handleUsernameBlur = (event: FocusEvent) => {
+  // Check if the focus is moving to an element inside the help section
+  const helpSection = document.querySelector('.steam-id-help')
+  const relatedTarget = event.relatedTarget as Element
+  
+  if (helpSection && relatedTarget && helpSection.contains(relatedTarget)) {
+    return // Don't close if focus is moving to help section
+  }
+  
+  helpTimeout = setTimeout(() => {
+    showUsernameHelp.value = false
+  }, 200) // Small delay to allow clicking on help links
+}
+
+const handleClickOutside = (event: MouseEvent) => {
+  const helpSection = document.querySelector('.steam-id-help')
+  const usernameInput = document.querySelector('#username')
+  
+  if (helpSection && !helpSection.contains(event.target as Node) && 
+      usernameInput && !usernameInput.contains(event.target as Node)) {
+    showUsernameHelp.value = false
+  }
+}
+
 watch(localSelectedCategory, (newValue: any) => emit('update:category', newValue))
 watch(localSelectedGenre, (newValue: any) => emit('update:genre', newValue))
 watch(localSelectedTag, (newValue: any[]) => {
@@ -158,6 +210,14 @@ onMounted(() => {
   loadCategories()
   loadGenres()
   loadTags()
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+  if (helpTimeout) {
+    clearTimeout(helpTimeout)
+  }
 })
 </script>
 
@@ -169,6 +229,10 @@ onMounted(() => {
 	align-content: flex-start;
 	justify-content: space-between;
 	align-items: stretch;
+}
+
+.dropDownSelection {
+	position: relative;
 }
 .dropDownSelection .button {
 	-webkit-transition: all .25s ease-in-out;
@@ -258,6 +322,90 @@ onMounted(() => {
 }
 .dropDownSelection >>> .multiselect__option--highlight:hover {
   background-color:rgb(59 130 246 / 0.5);
+}
+
+/* Steam ID Help Section Styles */
+.steam-id-help {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
+  overflow: hidden;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 300px;
+    transform: translateY(0);
+  }
+}
+
+.help-content {
+  background-color: #2b2b2b;
+  border: 2px solid #555;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+.help-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.help-steps {
+  color: #e0e0e0;
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+
+.help-steps li {
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.help-link {
+  color: #4ac200;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.help-link:hover {
+  color: #59e104;
+}
+
+.steam-id-example {
+  background-color: #424242;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.help-note {
+  background-color: #3a3a3a;
+  border-left: 4px solid #fe8204;
+  padding: 12px;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.help-note strong {
+  color: #fff;
 }
 </style>
 

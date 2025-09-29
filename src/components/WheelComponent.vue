@@ -95,6 +95,7 @@ const spinWheel = () => {
     const selectedSegmentIndex = Math.floor((360 - adjustedRotation) / segmentAngle)
 
     winner.value = games.value[selectedSegmentIndex]
+    console.log('Winner selected:', winner.value)
     emit('input', winner.value)
   }, 4000)
 }
@@ -139,8 +140,8 @@ onMounted(() => {
 <template>
   <div id="gameWheel" class="relative">
     <button class="skills-wheelbtn" title="spin" @click="spin">{{ loading ? 'Loading' : spinning ? 'Spinning' : empty ? 'No results' : 'Spin' }}</button>
-    <div class="gameImageCopy" v-show="winner" transition="fadeIn">
-      <img :src="winner?.image ?? undefined" :class="{ show: winner }">
+    <div class="gameImageCopy" v-show="winner">
+      <img :src="winner?.image ?? undefined" :class="{ show: winner }" @load="console.log('Game image loaded:', winner?.image)" @error="console.log('Game image failed to load:', winner?.image)">
     </div>
     <div class="skills-wheel">
       <ul class="wheel" ref="wheelRef">
@@ -161,6 +162,7 @@ onMounted(() => {
   background-position: center !important;
   background-attachment: fixed;
   width: 100%;
+  position: relative;
 }
 
 .bg {
