@@ -43,18 +43,22 @@ const loadGames = async (callback: () => void) => {
   try {
     const response = await axios.get(`${props.api}apps`, {
       params: {
+        limit: 8,
+        random: 1,
         category: props.category,
         genre: props.genre,
         tag: Array.isArray(props.tag) ? (props.tag.length ? props.tag : null) : props.tag,
-        free: props.free,
-        non_vr: props.nonVr,
+        free: props.free ? 1 : 0,
+        non_vr: props.nonVr ? 1 : 0,
         username: props.username || null,
       }
     })
     games.value = response.data
-    callback()
   } catch (error) {
     console.error(error)
+    games.value = []
+  } finally {
+    callback()
   }
 }
 
