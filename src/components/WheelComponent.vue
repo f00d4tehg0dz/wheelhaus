@@ -311,14 +311,12 @@ onMounted(() => {
 /* Coral rim (echoes the BroughtYouThisThing target motif) */
 .skills-wheel {
   height: 450px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 0 auto;
   overflow: hidden;
   position: relative;
   border-radius: 100%;
-  width: 100%;
-  max-width: 450px;
-  min-width: 450px;
+  width: 450px;
+  max-width: 100%;
   min-height: 450px;
   background:
     repeating-radial-gradient(circle at center,
@@ -458,8 +456,7 @@ onMounted(() => {
   .skills-wheel {
     height: 310px;
     width: 310px;
-    max-width: 310px;
-    min-width: 310px;
+    max-width: 100%;
     min-height: 310px;
   }
   .gameImageCopy {
