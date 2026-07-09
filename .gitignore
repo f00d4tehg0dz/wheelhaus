@@ -6,3 +6,5 @@ thewheelhaus/package-lock.json
 package-lock.json
 /node_modules
 /dist
+/.agents
+.env

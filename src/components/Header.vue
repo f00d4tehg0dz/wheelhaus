@@ -1,95 +1,94 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const navigation = [
-  { name: 'FAQ', href: '#steamFaq', current: false },
-  { name: 'Contact', href: 'mailto:adrianvfx@gmail.com', current: false },
+type NavItem = {
+  name: string
+  href: string
+  external?: boolean
+  variant: 'primary' | 'discord' | 'coral' | 'wordmark'
+}
+
+const navigation: NavItem[] = [
+  { name: 'FAQ', href: '#steamFaq', variant: 'primary' },
+  { name: 'Contact', href: 'mailto:adrianvfx@gmail.com', variant: 'primary' },
   {
     name: 'Add Discord Bot',
     href: 'https://discordapp.com/oauth2/authorize?client_id=636141023789056002&scope=bot&permissions=8',
-    current: false
+    external: true,
+    variant: 'discord',
   },
   {
     name: 'Demodisk',
     href: 'https://www.demodisk.app/',
-    current: false
-  }
+    external: true,
+    variant: 'coral',
+  },
 ]
 
-const isOpen = ref(false)
+// Shared sticker button base (no border, chunky dark drop shadow).
+const stickerBase =
+  'inline-flex items-center gap-2 rounded-lg px-3 py-1.5 font-display text-sm font-bold shadow-[3px_3px_0_0_#0F1435] transition-transform hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_#0F1435] focus:outline-none focus:ring-2 focus:ring-brand-gold'
+
+const variantClasses = {
+  wordmark: 'bg-brand-coral text-brand-paper text-lg px-4 py-2',
+  primary: 'bg-brand-gold text-brand-navy',
+  discord: 'bg-[#7289DA] text-brand-paper',
+  coral: 'bg-brand-coral text-brand-paper',
+}
 </script>
 
 <template>
-  <Disclosure as="nav" class="bg-gray-800">
-    <div class="mx-auto nav px-2 sm:px-6 lg:px-8">
-      <div class="absolute right-0 flex items-center sm:hidden">
-          <!-- Mobile menu button-->
-          <DisclosureButton class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-            <span class="sr-only">Open main menu</span>
-            <Bars3Icon v-if="!isOpen" class="block h-6 w-6" aria-hidden="true" />
-            <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
-          </DisclosureButton>
+  <Disclosure v-slot="{ open }" as="nav" class="sticky top-0 z-40 border-b-4 border-brand-ink bg-brand-navy shadow-lg">
+    <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between gap-4">
+        <!-- Wordmark -->
+        <a href="/" :class="[stickerBase, variantClasses.wordmark, 'shrink-0']">
+          The Wheelhaus
+        </a>
+
+        <!-- Desktop nav -->
+        <div class="hidden items-center gap-3 sm:flex">
+          <a
+            v-for="item in navigation"
+            :key="item.name"
+            :href="item.href"
+            :target="item.external ? '_blank' : undefined"
+            :rel="item.external ? 'noopener' : undefined"
+            :class="[stickerBase, variantClasses[item.variant]]"
+          >
+            <i v-if="item.variant === 'discord'" class="fab fa-discord" aria-hidden="true"></i>
+            <span>{{ item.name }}</span>
+          </a>
         </div>
-      <div class="relative flex h-16 items-center justify-between">
-        
-        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-          <div class="flex flex-shrink-0 items-center">
-            <a class="text-white text-md font-bold" href="/">The Wheelhaus</a>
-          </div>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4 nav-items">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-md font-medium']" :aria-current="item.current ? 'page' : undefined">
-                <span v-if="item.name === 'Add Discord Bot'">
-                  <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    <i class="fab fa-discord"></i>&nbsp; {{ item.name }} &nbsp;
-                  </button>
-                </span>
-                <span v-else-if="item.name === 'Demodisk'">
-                  <button type="button" class="btn bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    {{ item.name }}
-                  </button>
-                </span>
-                <span v-else>
-                  {{ item.name }}
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
+
+        <!-- Mobile hamburger -->
+        <DisclosureButton
+          class="inline-flex items-center justify-center rounded-lg bg-brand-gold p-2 text-brand-navy shadow-[3px_3px_0_0_#0F1435] transition-transform hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_0_#0F1435] focus:outline-none focus:ring-2 focus:ring-brand-paper sm:hidden"
+        >
+          <span class="sr-only">Open main menu</span>
+          <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
+          <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
+        </DisclosureButton>
       </div>
     </div>
 
+    <!-- Mobile panel -->
     <DisclosurePanel class="sm:hidden">
-      <div class="space-y-1 px-2 pb-3 pt-2">
-        <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']" :aria-current="item.current ? 'page' : undefined">
-          <span v-if="item.name === 'Add Discord Bot'">
-            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              <i class="fab fa-discord"></i>&nbsp; {{ item.name }} &nbsp;
-            </button>
-          </span>
-          <span v-else-if="item.name === 'Demodisk'">
-            <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              {{ item.name }}
-            </button>
-          </span>
-          <span v-else>
-            {{ item.name }}
-          </span>
+      <div class="flex flex-col gap-3 border-t-2 border-brand-ink/60 px-4 pb-4 pt-3">
+        <DisclosureButton
+          v-for="item in navigation"
+          :key="'m-' + item.name"
+          as="a"
+          :href="item.href"
+          :target="item.external ? '_blank' : undefined"
+          :rel="item.external ? 'noopener' : undefined"
+          :class="[stickerBase, variantClasses[item.variant], 'justify-center w-full']"
+        >
+          <i v-if="item.variant === 'discord'" class="fab fa-discord" aria-hidden="true"></i>
+          <span>{{ item.name }}</span>
         </DisclosureButton>
       </div>
     </DisclosurePanel>
   </Disclosure>
 </template>
-
-<style scoped>
-.nav {
-  display:flex;
-  justify-content: flex-start;
-}
-.nav-items {
-  display:flex;
-  align-items: center;
-}
-</style>
