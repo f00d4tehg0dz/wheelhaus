@@ -293,7 +293,10 @@ onMounted(() => {
 
 <style scoped>
 #gameWheel {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   background-repeat: no-repeat;
   background-size: 150px;
   background-position: center !important;
