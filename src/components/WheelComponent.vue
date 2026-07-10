@@ -46,6 +46,9 @@ const WHEEL_SIZE = 8
 // Overfetch pool so we have enough survivors after the IGDB quality filter.
 // CMA API returns random Steam apps; only ~20-40% typically have IGDB entries meeting the threshold.
 const INITIAL_POOL_SIZE = 100
+// Cap how many extra batches we'll pull while trying to reach WHEEL_SIZE survivors.
+// Wheel CSS is hardcoded for 8 segments — anything less looks broken, so we retry hard.
+const MAX_REFETCH_ATTEMPTS = 5
 
 const emit = defineEmits(['input'])
 
@@ -125,44 +128,80 @@ const loadGames = async (callback: () => void) => {
   errorMessage.value = null
   games.value = []
 
+  const survivors = new Map<number, Game>()
+  let igdbEverReachable = true
+
+  const addSurvivors = (batch: Game[]) => {
+    for (const g of batch) {
+      if (!survivors.has(g.id)) survivors.set(g.id, g)
+      if (survivors.size >= WHEEL_SIZE) break
+    }
+  }
+
   try {
     if (props.qualityThreshold > 0) {
-      // Curated mode: overfetch a big random pool from CMA -> enrich all with IGDB in one call ->
-      // filter by user's rating threshold -> shuffle survivors -> take 8.
-      const pool = await fetchBatch(INITIAL_POOL_SIZE)
-      if (pool.length === 0) {
-        errorMessage.value = 'No Steam games matched your filters. Try relaxing them.'
-        empty.value = true
-        return
+      // Curated mode: overfetch a big random pool from CMA -> enrich all with IGDB ->
+      // filter by user's rating threshold. Re-fetch additional batches until we have
+      // WHEEL_SIZE unique survivors or hit the attempt cap.
+      for (let attempt = 0; attempt < MAX_REFETCH_ATTEMPTS && survivors.size < WHEEL_SIZE; attempt++) {
+        const pool = await fetchBatch(INITIAL_POOL_SIZE)
+        if (pool.length === 0) break
+
+        const { games: enriched, igdbReachable } = await enrichWithIgdb(pool)
+        if (!igdbReachable) {
+          igdbEverReachable = false
+          break
+        }
+
+        const passing = enriched.filter(passesQualityFilter)
+        console.log(`[wheel] attempt ${attempt + 1}: ${passing.length}/${enriched.length} games passed rating >=${props.qualityThreshold} (survivors so far: ${survivors.size})`)
+
+        addSurvivors(shuffle(passing))
       }
 
-      const { games: enriched, igdbReachable } = await enrichWithIgdb(pool)
-
-      if (!igdbReachable) {
+      if (!igdbEverReachable) {
         errorMessage.value = 'IGDB curation unavailable. Drop the rating slider to 0 or check the /api/igdb endpoint.'
         empty.value = true
         return
       }
 
-      const survivors = enriched.filter(passesQualityFilter)
-      console.log(`[wheel] IGDB curation: ${survivors.length}/${enriched.length} games passed rating >=${props.qualityThreshold} with >=${QUALITY_MIN_RATING_COUNT} reviewers`)
-
-      if (survivors.length === 0) {
+      if (survivors.size === 0) {
         errorMessage.value = `No IGDB games rated ${props.qualityThreshold}+ in this filter set. Try a lower rating or relax filters.`
         empty.value = true
         return
       }
 
-      games.value = shuffle(survivors).slice(0, WHEEL_SIZE)
+      if (survivors.size < WHEEL_SIZE) {
+        errorMessage.value = `Only found ${survivors.size} of ${WHEEL_SIZE} games rated ${props.qualityThreshold}+ after ${MAX_REFETCH_ATTEMPTS} tries. Try lowering the rating or relaxing filters.`
+        empty.value = true
+        return
+      }
+
+      games.value = Array.from(survivors.values()).slice(0, WHEEL_SIZE)
     } else {
-      // Threshold = 0: curation off. Just fetch 8, enrich for winner card metadata.
-      const batch = await fetchBatch(WHEEL_SIZE)
-      const { games: enriched } = await enrichWithIgdb(batch)
-      games.value = enriched
-      if (games.value.length === 0) {
+      // Threshold = 0: curation off. Fetch WHEEL_SIZE and retry if CMA returned fewer
+      // (strict filters can produce short batches).
+      for (let attempt = 0; attempt < MAX_REFETCH_ATTEMPTS && survivors.size < WHEEL_SIZE; attempt++) {
+        const batch = await fetchBatch(WHEEL_SIZE)
+        if (batch.length === 0) break
+        addSurvivors(batch)
+      }
+
+      if (survivors.size === 0) {
         errorMessage.value = 'No Steam games matched your filters. Try relaxing them.'
         empty.value = true
+        return
       }
+
+      if (survivors.size < WHEEL_SIZE) {
+        errorMessage.value = `Only found ${survivors.size} of ${WHEEL_SIZE} games matching your filters. Try relaxing them.`
+        empty.value = true
+        return
+      }
+
+      const finalBatch = Array.from(survivors.values()).slice(0, WHEEL_SIZE)
+      const { games: enriched } = await enrichWithIgdb(finalBatch)
+      games.value = enriched
     }
   } catch (error) {
     console.error(error)
